@@ -1,0 +1,39 @@
+<div class="home">
+  <div *ngIf="initialLoad && !finish" class="start-container">
+    <button class="btn btn-success" (click)="startQuz()">Lets Start</button>
+  </div>
+  <span *ngIf="!initialLoad">
+    Marks: {{marks}}
+  </span>
+
+  <div *ngIf="!initialLoad && !finish" class="question-container">
+    <h3>{{ displayQuestion.question }}</h3>
+    <div class="option-container">
+      <div
+        [ngClass]="{
+          selected: item.key === selectedValue && !check,
+          wrong:
+            item.key === selectedValue && item.key !== correctOption && check,
+          right:
+            item.key === correctOption && check
+        }"
+        class="option"
+        *ngFor="let item of displayQuestion.option"
+        (click)="selectedOption(item.key)"
+      >
+        {{ item.value }}
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="finish">
+    Done
+  </div>
+
+  <div *ngIf="!(initialLoad && !finish)">
+    <button *ngIf="!check && !finish" class="btn btn-primary mt-3" (click)="done()" [disabled]="!correctOption">Check</button>
+    <button *ngIf="check && questions.length > (page+1)" class="btn btn-success mt-3" (click)="next()" [disabled]="!correctOption">Next</button>
+    <button *ngIf="check && questions.length == (page+1)" class="btn btn-success mt-3" (click)="finishQuiz()" [disabled]="!correctOption">Finish</button>
+    <button *ngIf="finish" class="btn btn-success mt-3" (click)="reset()" [disabled]="!correctOption">Restart</button>
+  </div>
+</div>
