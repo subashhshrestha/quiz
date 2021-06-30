@@ -2,9 +2,14 @@
   <div *ngIf="initialLoad && !finish" class="start-container">
     <button class="btn btn-success" (click)="startQuz()">Lets Start</button>
   </div>
-  <span *ngIf="!initialLoad">
-    Marks: {{marks}}
-  </span>
+  <div *ngIf="!initialLoad">
+    <div>
+      Attempt No: {{attempt}}
+    </div>
+    <div>
+      Marks: {{marks}}  Percent: {{(marks/attempt) * 100}} %
+    </div>
+  </div>
 
   <div *ngIf="!initialLoad && !finish" class="question-container">
     <h3>{{ displayQuestion.question }}</h3>
@@ -31,6 +36,7 @@
   </div>
 
   <div *ngIf="!(initialLoad && !finish)">
+    <button *ngIf="page > 0" class="btn btn-success mr-3 mt-3" style="margin-right: 1rem;" (click)="back()">Back</button>
     <button *ngIf="!check && !finish" class="btn btn-primary mt-3" (click)="done()" [disabled]="!correctOption">Check</button>
     <button *ngIf="check && questions.length > (page+1)" class="btn btn-success mt-3" (click)="next()" [disabled]="!correctOption">Next</button>
     <button *ngIf="check && questions.length == (page+1)" class="btn btn-success mt-3" (click)="finishQuiz()" [disabled]="!correctOption">Finish</button>

@@ -43,6 +43,10 @@ export class HomeComponent implements OnInit {
   check = false;
   finish = false;
   marks = 0;
+  currectPage = null;
+  selectedAnswer = [];
+  correctOptionArr = [];
+  attempt= 0;
   constructor() {}
 
   ngOnInit(): void {
@@ -60,19 +64,34 @@ export class HomeComponent implements OnInit {
   }
 
   done() {
+    this.attempt += 1; 
     this.check = true;
     this.correctOption = this.displayQuestion.ans;
     if(this.correctOption == this.selectedValue){
       this.marks +=1;
     }
+    this.selectedAnswer.push(this.selectedValue);
+    this.correctOptionArr.push(this.correctOption);
   }
 
   next() {
-    this.check = false;
-    this.selectedValue = null;
-    this.correctOption = null;
     this.page += 1;
+    if(this.page > (this.attempt-1)){
+      this.currectPage = null;
+    }
+
+    if(this.page <= (this.attempt-1)){
+      this.selectedValue = this.selectedAnswer[this.page];
+      this.correctOption = this.correctOptionArr[this.page];
+    }
+
+    if(this.currectPage === null){
+      this.check = false;
+      this.selectedValue = null;
+      this.correctOption = null;
+    }
     this.displayQuestion = this.questions[this.page];
+   
   }
 
   finishQuiz() {
@@ -85,5 +104,16 @@ export class HomeComponent implements OnInit {
     this.finish = false;
     this.page = 0;
     this.marks = 0;
+  }
+
+  back() {
+    if(this.currectPage === null) {
+      this.currectPage = this.attempt - 1;;
+    }
+    this.page -= 1;
+    this.selectedValue = this.selectedAnswer[this.page];
+    this.correctOption = this.correctOptionArr[this.page];
+    this.displayQuestion = this.questions[this.page];
+    this.check = true;       
   }
 }

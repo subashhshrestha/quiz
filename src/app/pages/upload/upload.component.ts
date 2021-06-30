@@ -13,7 +13,7 @@ export class UploadComponent implements OnInit {
   }
 
   uploadExcel(e) {
-  
+  debugger
     try{
     
     const fileName = e.target.files[0].name;
@@ -24,6 +24,7 @@ export class UploadComponent implements OnInit {
       const reader = new FileReader();
       // const file = ev.target.files[0];
       reader.onload = (event) => {
+        debugger
         const data = reader.result;
         workBook = xlsx.read(data, { type: 'binary' });
         jsonData = workBook.SheetNames.reduce((initial, name) => {
