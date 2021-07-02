@@ -1,14 +1,13 @@
 <div class="home">
   <div *ngIf="initialLoad && !finish" class="start-container">
-    <button class="btn btn-success" (click)="startQuz()">Lets Start</button>
+    <div>
+      <span>Please choose Question No to start from</span>
+    <input class="form-control" type="number" min="1" placeholder="Question Number" [(ngModel)]="displayPage"/>
+    </div>
+    <button class="btn btn-success mt-3" (click)="startQuz()">Lets Start</button>
   </div>
   <div *ngIf="!initialLoad">
-    <div>
-      Attempt No: {{attempt}}
-    </div>
-    <div>
-      Marks: {{marks}}  Percent: {{(marks/attempt) * 100}} %
-    </div>
+    <span>Question: {{page + 1}}</span>
   </div>
 
   <div *ngIf="!initialLoad && !finish" class="question-container">
@@ -16,11 +15,11 @@
     <div class="option-container">
       <div
         [ngClass]="{
-          selected: item.key === selectedValue && !check,
-          wrong:
-            item.key === selectedValue && item.key !== correctOption && check,
+          selected: item.key === selectedValue && !displayQuestion.selected,
           right:
-            item.key === correctOption && check
+            item.key === displayQuestion.ans && displayQuestion.selected,
+          wrong:
+          item.key === displayQuestion.selected && displayQuestion.selected !== displayQuestion.ans && displayQuestion.selected
         }"
         class="option"
         *ngFor="let item of displayQuestion.option"
@@ -36,10 +35,10 @@
   </div>
 
   <div *ngIf="!(initialLoad && !finish)">
-    <button *ngIf="page > 0" class="btn btn-success mr-3 mt-3" style="margin-right: 1rem;" (click)="back()">Back</button>
-    <button *ngIf="!check && !finish" class="btn btn-primary mt-3" (click)="done()" [disabled]="!correctOption">Check</button>
-    <button *ngIf="check && questions.length > (page+1)" class="btn btn-success mt-3" (click)="next()" [disabled]="!correctOption">Next</button>
-    <button *ngIf="check && questions.length == (page+1)" class="btn btn-success mt-3" (click)="finishQuiz()" [disabled]="!correctOption">Finish</button>
-    <button *ngIf="finish" class="btn btn-success mt-3" (click)="reset()" [disabled]="!correctOption">Restart</button>
+    <button *ngIf="page > 0 && !finish" class="btn btn-success mr-3 mt-3" style="margin-right: 1rem;" (click)="back()">Back</button>
+    <button *ngIf="!displayQuestion.selected" class="btn btn-primary mt-3" (click)="done()" [disabled]="!selectedValue">Check</button>
+    <button *ngIf="displayQuestion.selected && questions.length > (page+1)" class="btn btn-success mt-3" (click)="next()" [disabled]="!displayQuestion.selected">Next</button>
+    <button *ngIf="displayQuestion.selected && questions.length == (page+1) && !finish" class="btn btn-success mt-3" (click)="finishQuiz()" [disabled]="!displayQuestion.selected">Finish</button>
+    <button *ngIf="finish" class="btn btn-success mt-3" (click)="reset()" [disabled]="!displayQuestion.selected">Restart</button>
   </div>
 </div>

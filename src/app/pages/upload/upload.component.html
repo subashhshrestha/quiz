@@ -1,1 +1,2 @@
-<input type="file" (change)="uploadExcel($event)">
+<input type="file" (change)="uploadExcel($event)" *ngIf="!loading" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+<span *ngIf="loading">Loading....</span>

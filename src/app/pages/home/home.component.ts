@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,113 +8,70 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   initialLoad = true;
+  displayPage = 1;
   page = 0;
   displayQuestion: {
     question: string;
     ans: string;
     option: Array<{ key: string; value: string }>;
+    selected: string;
   };
-  questions = [
-    {
-      question: 'What is your name',
-      ans: '1',
-      option: [
-        {
-          key: '1',
-          value: 'Subash',
-        },
-        {
-          key: '2',
-          value: 'Sujil',
-        },
-        {
-          key: '3',
-          value: 'Nabina',
-        },
-        {
-          key: '4',
-          value: 'Ratbe',
-        },
-      ],
-    },
-  ];
+  questions = [];
 
   selectedValue = null;
-  correctOption = null;
-  check = false;
   finish = false;
-  marks = 0;
-  currectPage = null;
-  selectedAnswer = [];
-  correctOptionArr = [];
-  attempt= 0;
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.questions = JSON.parse(localStorage.getItem('questions'));
+    let questions = localStorage.getItem('questions');
+    if(questions){
+      this.questions = JSON.parse(localStorage.getItem('questions'));
+    }else {
+      this.router.navigate(['upload']);
+    }
   }
 
   startQuz() {
+    this.page = this.displayPage-1;
     this.initialLoad = false;
     this.displayQuestion = this.questions[this.page];
   }
 
   selectedOption(value) {
     this.selectedValue = value;
-    this.correctOption = this.displayQuestion.ans;
+    
   }
 
   done() {
-    this.attempt += 1; 
-    this.check = true;
-    this.correctOption = this.displayQuestion.ans;
-    if(this.correctOption == this.selectedValue){
-      this.marks +=1;
-    }
-    this.selectedAnswer.push(this.selectedValue);
-    this.correctOptionArr.push(this.correctOption);
+    this.questions[this.page]['selected'] = this.selectedValue;
+    localStorage.setItem('questions',JSON.stringify(this.questions))
   }
 
   next() {
     this.page += 1;
-    if(this.page > (this.attempt-1)){
-      this.currectPage = null;
-    }
-
-    if(this.page <= (this.attempt-1)){
-      this.selectedValue = this.selectedAnswer[this.page];
-      this.correctOption = this.correctOptionArr[this.page];
-    }
-
-    if(this.currectPage === null){
-      this.check = false;
-      this.selectedValue = null;
-      this.correctOption = null;
-    }
+    this.selectedValue = null;
     this.displayQuestion = this.questions[this.page];
-   
   }
 
   finishQuiz() {
     this.finish = true;
-    this.check = false;
   }
 
   reset() {
     this.initialLoad = true;
     this.finish = false;
     this.page = 0;
-    this.marks = 0;
+    this.selectedValue = null;
+    this.questions = this.questions.map(question => {
+      question.selected = null;
+      return question;
+    })
+    localStorage.setItem('questions',JSON.stringify(this.questions))
   }
 
   back() {
-    if(this.currectPage === null) {
-      this.currectPage = this.attempt - 1;;
-    }
     this.page -= 1;
-    this.selectedValue = this.selectedAnswer[this.page];
-    this.correctOption = this.correctOptionArr[this.page];
+    this.selectedValue = null;
     this.displayQuestion = this.questions[this.page];
-    this.check = true;       
   }
 }

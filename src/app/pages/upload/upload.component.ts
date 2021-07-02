@@ -7,15 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadComponent implements OnInit {
   products = null;
+  loading = false;
   constructor() { }
 
   ngOnInit(): void {
   }
 
   uploadExcel(e) {
-  debugger
     try{
-    
+    this.loading = true;
     const fileName = e.target.files[0].name;
     
     import('xlsx').then(xlsx => {
@@ -24,7 +24,6 @@ export class UploadComponent implements OnInit {
       const reader = new FileReader();
       // const file = ev.target.files[0];
       reader.onload = (event) => {
-        debugger
         const data = reader.result;
         workBook = xlsx.read(data, { type: 'binary' });
         jsonData = workBook.SheetNames.reduce((initial, name) => {
@@ -59,12 +58,14 @@ export class UploadComponent implements OnInit {
           questions.unshift(question);
         })
         localStorage.setItem('questions', JSON.stringify(questions));
+        this.loading = false;
   
       };
       reader.readAsBinaryString(e.target.files[0]);
     });
   
   }catch(e){
+    this.loading = false;
      console.log('error', e);
   }
   

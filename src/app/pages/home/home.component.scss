@@ -5,6 +5,13 @@
     height: 100vh;
     flex-direction: column;
 
+    .start-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
     .question-container{
         max-width: 600px;
         padding: 20px;
