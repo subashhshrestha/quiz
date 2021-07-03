@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { UploadComponent } from './pages/upload/upload.component';
 import { FormsModule } from '@angular/forms';
+import { RealTestComponent } from './pages/real-test/real-test.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    UploadComponent
+    UploadComponent,
+    RealTestComponent
   ],
   imports: [
     BrowserModule,

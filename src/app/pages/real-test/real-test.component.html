@@ -1,0 +1,55 @@
+<div class="test">
+  <div *ngIf="isTestStart && !isTestComplete && !isLoading" class="timer">
+    <span>{{ subscribeTimer }}</span>
+  </div>
+
+  <div class="main-container" *ngIf="!isLoading">
+    <div *ngIf="!isTestStart && !isTestComplete" class="test-start">
+      <button class="btn btn-success" (click)="startTest()">Lets Start</button>
+    </div>
+
+    <div
+      *ngIf="!isTestStart && isTestComplete"
+      class="test-finish d-flex flex-column"
+    >
+      You Got {{ marks }} out of 100
+      <button class="btn btn-success mt-4" (click)="reset()">Reset</button>
+    </div>
+
+    <div *ngIf="isTestStart && !isTestComplete" class="test-progress">
+      <div class="question-container">
+        <h3>{{ displayQuestion.question }}</h3>
+        <div class="option-container">
+          <div
+            [ngClass]="{
+              selected: item.key === selectedValue && !displayQuestion.selected
+            }"
+            class="option"
+            *ngFor="let item of displayQuestion.option"
+            (click)="selectedOption(item.key)"
+          >
+            {{ item.value }}
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button
+          *ngIf="selectedValue && questions.length > page + 1"
+          class="btn btn-success mt-3"
+          (click)="next()"
+        >
+          Next
+        </button>
+        <button
+          *ngIf="selectedValue && questions.length == page + 1"
+          class="btn btn-success mt-3"
+          (click)="finishQuiz()"
+        >
+          Finish
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isLoading">Loading...</div>
+</div>

@@ -24,27 +24,26 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     let questions = localStorage.getItem('questions');
-    if(questions){
+    if (questions) {
       this.questions = JSON.parse(localStorage.getItem('questions'));
-    }else {
+    } else {
       this.router.navigate(['upload']);
     }
   }
 
   startQuz() {
-    this.page = this.displayPage-1;
+    this.page = this.displayPage - 1;
     this.initialLoad = false;
     this.displayQuestion = this.questions[this.page];
   }
 
   selectedOption(value) {
     this.selectedValue = value;
-    
   }
 
   done() {
     this.questions[this.page]['selected'] = this.selectedValue;
-    localStorage.setItem('questions',JSON.stringify(this.questions))
+    localStorage.setItem('questions', JSON.stringify(this.questions));
   }
 
   next() {
@@ -62,16 +61,20 @@ export class HomeComponent implements OnInit {
     this.finish = false;
     this.page = 0;
     this.selectedValue = null;
-    this.questions = this.questions.map(question => {
+    this.questions = this.questions.map((question) => {
       question.selected = null;
       return question;
-    })
-    localStorage.setItem('questions',JSON.stringify(this.questions))
+    });
+    localStorage.setItem('questions', JSON.stringify(this.questions));
   }
 
   back() {
     this.page -= 1;
     this.selectedValue = null;
     this.displayQuestion = this.questions[this.page];
+  }
+
+  startTest() {
+    this.router.navigate(['test']);
   }
 }

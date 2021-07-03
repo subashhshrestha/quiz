@@ -5,6 +5,8 @@
     <input class="form-control" type="number" min="1" placeholder="Question Number" [(ngModel)]="displayPage"/>
     </div>
     <button class="btn btn-success mt-3" (click)="startQuz()">Lets Start</button>
+    <div class="mt-3">OR</div>
+    <button class="mt-3 btn btn-outline-primary" (click)="startTest()">Take a Real Test</button>
   </div>
   <div *ngIf="!initialLoad">
     <span>Question: {{page + 1}}</span>
