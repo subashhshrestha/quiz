@@ -1,5 +1,5 @@
 <div class="test">
-  <div class="main-container" *ngIf="!isLoading">
+  <ng-container *ngIf="!isLoading">
     <div *ngIf="!isTestStart && !isTestComplete" class="test-start">
       <button class="btn btn-success" (click)="startTest()">Lets Start</button>
     </div>
@@ -57,6 +57,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
+
   <div *ngIf="isLoading">Loading...</div>
 </div>

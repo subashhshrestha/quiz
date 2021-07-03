@@ -1,36 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto:wght@100;300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron&family=Roboto:wght@100;300&display=swap");
 .test {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  padding: 0 10px;
 
   .timer {
-      .time {
-          display: inline-block;
-          margin-left: 5px;
-          font-family: 'Orbitron', sans-serif;
-      }
+    .time {
+      display: inline-block;
+      margin-left: 5px;
+      font-family: "Orbitron", sans-serif;
+    }
   }
-
-  .main-container {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    flex: 1;
-    padding: 0  10px;
-  }
+  
   .question-container {
     max-width: 600px;
     padding: 20px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
     hr {
-        margin-right: -20px;
-        margin-left: -20px;
+      margin-right: -20px;
+      margin-left: -20px;
     }
   }
 
@@ -43,11 +35,11 @@
       margin-top: 10px;
       text-align: center;
       border: 1px solid rgb(48, 73, 155);
-      background:#edf1ff94;
+      background: #edf1ff94;
       padding: 10px;
       border-radius: 5px;
       cursor: pointer;
-      color: rgb(48, 73, 155);;
+      color: rgb(48, 73, 155);
     }
   }
 
