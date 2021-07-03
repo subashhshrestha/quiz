@@ -50,11 +50,11 @@ export class RealTestComponent implements OnInit {
     this.displayQuestion = this.questions[this.page];
     this.isLoading = true;
     this._subscriber = source.subscribe((val) => {
+      console.log(val);
       this.isTestStart = true;
       this.isTestComplete = false;
       this.isLoading = false;
-      this.timeLeft = this.timeLeft - val;
-      this.subscribeTimer = moment.utc(this.timeLeft * 1000).format('HH:mm:ss');
+      this.subscribeTimer = moment.utc((this.timeLeft - val) * 1000).format('HH:mm:ss');
       if (this.timeLeft <= 0) {
         this.isTestStart = false;
         this.isTestComplete = true;
