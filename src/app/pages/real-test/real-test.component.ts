@@ -94,6 +94,7 @@ export class RealTestComponent implements OnInit {
   }
 
   reset() {
+    this.selectedValue = null;
     this.timeLeft = 5400;
     this.isLoading = false;
     this.isTestStart = false;
@@ -105,5 +106,6 @@ export class RealTestComponent implements OnInit {
       question.selected = null;
       return question;
     });
+    localStorage.setItem('testQuestions', JSON.stringify(this.questions));
   }
 }
