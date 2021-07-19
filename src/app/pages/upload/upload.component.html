@@ -1,20 +1,43 @@
 <div class="upload-page">
   <a routerLink="/"><i class="fa fa-angle-left"></i>Back</a>
-  
+
   <div class="content">
     <input
-    id="file"
-    type="file"
-    (change)="uploadExcel($event)"
-    *ngIf="!loading"
-    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  />
-  <label *ngIf="!loading" for="file"
-    ><i class="fa fa-upload"></i>Choose a file</label
-  >
-  <span *ngIf="loading"><i class="fa fa-spinner fa-pulse"></i></span>
-  <span *ngIf="invalidHeader" class="text-danger">{{
-    invalidHeaderError
-  }}</span>
+      id="file"
+      type="file"
+      (change)="uploadExcel($event)"
+      *ngIf="!loading"
+      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    />
+    <label *ngIf="!loading" for="file"
+      ><i class="fa fa-upload"></i>Choose a file</label
+    >
+    <span *ngIf="loading"><i class="fa fa-spinner fa-pulse"></i></span>
+    <div *ngIf="invalidHeader" class="mt-2">
+      <div class="text-center text-danger">Please enter a file with correct header</div>
+      <div class="text-center mt-3">
+        Correct File Header
+      <br>
+      <table>
+        <tr>
+          <th>Question</th>
+          <th>correctc option number</th>
+          <th>Option 1</th>
+          <th>Option 2</th>
+          <th>Option 3</th>
+          <th>Option 4</th>
+        </tr>
+        <tr>
+          <td>What is your name?</td>
+          <td>4</td>
+          <td>Hary</td>
+          <td>Sam</td>
+          <td>Bob</td>
+          <td>None</td>
+        </tr>
+      </table>
+        <!-- | Question | correct option number | Option 1 | Option 2 | Option 3 | Option 4 | -->
+      </div>
+    </div>
   </div>
 </div>
