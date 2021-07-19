@@ -35,7 +35,7 @@ export class RealTestComponent implements OnInit {
     if (questions) {
       this.questions = JSON.parse(localStorage.getItem('questions'));
       this.questions = _.shuffle(this.questions);
-      this.questions = _.slice(this.questions, 0, 3);
+      this.questions = _.slice(this.questions, 0, 100);
       this.questions = this.questions.map((question) => {
         question.selected = null;
         return question;
