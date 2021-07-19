@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss'],
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent implements OnInit, OnDestroy {
   products = null;
   loading = false;
   invalidHeaderError = 'Hey You Please enter a file with correct header';
   invalidHeader = false;
 
-  constructor() {}
+  constructor(private meta: Meta) {
+    this.meta.updateTag({ name: 'viewport', content: 'width=500px, initial-scale=1' });
+  }
+  ngOnDestroy(): void {
+    this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1' });
+  }
 
   ngOnInit(): void {}
 
