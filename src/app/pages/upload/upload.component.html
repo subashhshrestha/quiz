@@ -1,2 +1,16 @@
-<input type="file" (change)="uploadExcel($event)" *ngIf="!loading" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
-<span *ngIf="loading">Loading....</span>
+<div class="upload-page">
+  <input
+    id="file"
+    type="file"
+    (change)="uploadExcel($event)"
+    *ngIf="!loading"
+    accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  />
+  <label *ngIf="!loading" for="file"
+    ><i class="fa fa-upload"></i>Choose a file</label
+  >
+  <span *ngIf="loading">Loading....</span>
+  <span *ngIf="invalidHeader" class="text-danger">{{
+    invalidHeaderError
+  }}</span>
+</div>

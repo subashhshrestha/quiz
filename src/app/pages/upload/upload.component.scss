@@ -1,0 +1,39 @@
+.upload-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+
+  i {
+    margin-right: 7px;
+  }
+
+  span {
+    margin-top: 10px;
+  }
+}
+
+label {
+  cursor: pointer;
+  color: white;
+  background-color: #198754;
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+label:hover {
+  color: #198754;
+  background-color: transparent;
+  border: 1px solid #198754;
+}
+
+input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}

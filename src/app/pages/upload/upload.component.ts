@@ -3,72 +3,86 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.scss']
+  styleUrls: ['./upload.component.scss'],
 })
 export class UploadComponent implements OnInit {
   products = null;
   loading = false;
-  constructor() { }
+  invalidHeaderError = 'Hey You Please enter a file with correct header';
+  invalidHeader = false;
 
-  ngOnInit(): void {
-  }
+  constructor() {}
+
+  ngOnInit(): void {}
 
   uploadExcel(e) {
-    try{
-    this.loading = true;
-    const fileName = e.target.files[0].name;
-    
-    import('xlsx').then(xlsx => {
-      let workBook = null;
-      let jsonData = null;
-      const reader = new FileReader();
-      // const file = ev.target.files[0];
-      reader.onload = (event) => {
-        const data = reader.result;
-        workBook = xlsx.read(data, { type: 'binary' });
-        jsonData = workBook.SheetNames.reduce((initial, name) => {
-          const sheet = workBook.Sheets[name];
-          initial[name] = xlsx.utils.sheet_to_json(sheet,{raw: false});
-          return initial;
-        }, {});
-        this.products = jsonData[Object.keys(jsonData)[0]];
-        let questions = []
-        this.products.forEach(p=>{
-          let question = {}
-          question['question'] = p['Question'];
-          question['ans'] = p['correct option number'].toString();
-          question['option'] = [
-            {
-              key: '1',
-              value: p['Option 1']
-            },
-            {
-              key: '2',
-              value: p['Option 2']
-            },
-            {
-              key: '3',
-              value: p['Option 3']
-            },
-            {
-              key: '4',
-              value: p['Option 4']
-            }
-          ]
-          questions.unshift(question);
-        })
-        localStorage.setItem('questions', JSON.stringify(questions));
-        this.loading = false;
-  
-      };
-      reader.readAsBinaryString(e.target.files[0]);
-    });
-  
-  }catch(e){
-    this.loading = false;
-     console.log('error', e);
-  }
-  
-  }
+    try {
+      this.loading = true;
+      this.invalidHeader = false;
+      const fileName = e.target.files[0].name;
 
+      import('xlsx').then((xlsx) => {
+        let workBook = null;
+        let jsonData = null;
+        const reader = new FileReader();
+        // const file = ev.target.files[0];
+        reader.onload = (event) => {
+          const data = reader.result;
+          workBook = xlsx.read(data, { type: 'binary' });
+          jsonData = workBook.SheetNames.reduce((initial, name) => {
+            const sheet = workBook.Sheets[name];
+            initial[name] = xlsx.utils.sheet_to_json(sheet, { raw: false });
+            return initial;
+          }, {});
+          this.products = jsonData[Object.keys(jsonData)[0]];
+          let questions = [];
+          if (
+            !(
+              'Question' in this.products[0] &&
+              'correct option numbe' in this.products[0] &&
+              'Option 1' in this.products[0] &&
+              'Option 2' in this.products[0] &&
+              'Option 3' in this.products[0] &&
+              'Option 4' in this.products[0]
+            )
+          ) {
+            this.loading = false;
+            this.invalidHeader = true;
+          }
+          if (!this.invalidHeader) {
+            this.products.forEach((p) => {
+              let question = {};
+              question['question'] = p['Question'];
+              question['ans'] = p['correct option number'].toString();
+              question['option'] = [
+                {
+                  key: '1',
+                  value: p['Option 1'],
+                },
+                {
+                  key: '2',
+                  value: p['Option 2'],
+                },
+                {
+                  key: '3',
+                  value: p['Option 3'],
+                },
+                {
+                  key: '4',
+                  value: p['Option 4'],
+                },
+              ];
+              questions.unshift(question);
+            });
+            localStorage.setItem('questions', JSON.stringify(questions));
+            this.loading = false;
+          }
+        };
+        reader.readAsBinaryString(e.target.files[0]);
+      });
+    } catch (e) {
+      this.loading = false;
+      console.log('error', e);
+    }
+  }
 }
