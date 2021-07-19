@@ -35,7 +35,7 @@ export class RealTestComponent implements OnInit {
     if (questions) {
       this.questions = JSON.parse(localStorage.getItem('questions'));
       this.questions = _.shuffle(this.questions);
-      this.questions = _.slice(this.questions, 0, 100);
+      this.questions = _.slice(this.questions, 0, 3);
       this.questions = this.questions.map((question) => {
         question.selected = null;
         return question;
@@ -46,6 +46,7 @@ export class RealTestComponent implements OnInit {
   }
 
   startTest() {
+    localStorage.setItem('testQuestions', JSON.stringify(this.questions));
     const source = timer(1000, 1000);
     this.displayQuestion = this.questions[this.page];
     this.isLoading = true;
@@ -77,6 +78,8 @@ export class RealTestComponent implements OnInit {
   }
 
   finishQuiz() {
+    this.questions[this.page]['selected'] = this.selectedValue;
+    localStorage.setItem('testQuestions', JSON.stringify(this.questions));
     this.isTestStart = false;
     this.isTestComplete = true;
     this._subscriber.unsubscribe();
@@ -94,6 +97,7 @@ export class RealTestComponent implements OnInit {
   }
 
   reset() {
+    this.page = 0;
     this.selectedValue = null;
     this.timeLeft = 5400;
     this.isLoading = false;

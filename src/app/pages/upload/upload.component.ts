@@ -28,7 +28,7 @@ export class UploadComponent implements OnInit {
         workBook = xlsx.read(data, { type: 'binary' });
         jsonData = workBook.SheetNames.reduce((initial, name) => {
           const sheet = workBook.Sheets[name];
-          initial[name] = xlsx.utils.sheet_to_json(sheet);
+          initial[name] = xlsx.utils.sheet_to_json(sheet,{raw: false});
           return initial;
         }, {});
         this.products = jsonData[Object.keys(jsonData)[0]];
