@@ -1,5 +1,8 @@
 <div class="upload-page">
-  <input
+  <a routerLink="/"><i class="fa fa-angle-left"></i>Back</a>
+  
+  <div class="content">
+    <input
     id="file"
     type="file"
     (change)="uploadExcel($event)"
@@ -9,8 +12,9 @@
   <label *ngIf="!loading" for="file"
     ><i class="fa fa-upload"></i>Choose a file</label
   >
-  <span *ngIf="loading">Loading....</span>
+  <span *ngIf="loading"><i class="fa fa-spinner fa-pulse"></i></span>
   <span *ngIf="invalidHeader" class="text-danger">{{
     invalidHeaderError
   }}</span>
+  </div>
 </div>

@@ -39,7 +39,7 @@ export class UploadComponent implements OnInit {
           if (
             !(
               'Question' in this.products[0] &&
-              'correct option numbe' in this.products[0] &&
+              'correct option number' in this.products[0] &&
               'Option 1' in this.products[0] &&
               'Option 2' in this.products[0] &&
               'Option 3' in this.products[0] &&
