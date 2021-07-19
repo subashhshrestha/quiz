@@ -13,7 +13,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   invalidHeader = false;
 
   constructor(private meta: Meta) {
-    this.meta.updateTag({ name: 'viewport', content: 'width=500px, initial-scale=1' });
+    this.meta.updateTag({ name: 'viewport', content: 'width=500px, user-scalable=no' });
   }
   ngOnDestroy(): void {
     this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1' });
