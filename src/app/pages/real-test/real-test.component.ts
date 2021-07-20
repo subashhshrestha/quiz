@@ -33,19 +33,14 @@ export class RealTestComponent implements OnInit {
   ngOnInit() {
     let questions = localStorage.getItem('questions');
     if (questions) {
-      this.questions = JSON.parse(localStorage.getItem('questions'));
-      this.questions = _.shuffle(this.questions);
-      this.questions = _.slice(this.questions, 0, 100);
-      this.questions = this.questions.map((question) => {
-        question.selected = null;
-        return question;
-      });
+      this.shuffleQuestion();
     } else {
       this.router.navigate(['upload']);
     }
   }
 
   startTest() {
+    this.shuffleQuestion();
     localStorage.setItem('testQuestions', JSON.stringify(this.questions));
     const source = timer(1000, 1000);
     this.displayQuestion = this.questions[this.page];
@@ -87,6 +82,7 @@ export class RealTestComponent implements OnInit {
   }
 
   calculateMarks() {
+    this.marks = 0;
     this.isLoading = true;
     this.questions.forEach((question) => {
       if (question.selected === question.ans) {
@@ -111,5 +107,15 @@ export class RealTestComponent implements OnInit {
       return question;
     });
     localStorage.setItem('testQuestions', JSON.stringify(this.questions));
+  }
+
+  shuffleQuestion() {
+    this.questions = JSON.parse(localStorage.getItem('questions'));
+      this.questions = _.shuffle(this.questions);
+      this.questions = _.slice(this.questions, 0, 100);
+      this.questions = this.questions.map((question) => {
+        question.selected = null;
+        return question;
+      });
   }
 }
