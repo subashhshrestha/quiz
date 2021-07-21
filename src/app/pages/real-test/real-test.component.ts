@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-real-test',
@@ -27,11 +27,14 @@ export class RealTestComponent implements OnInit {
   isLoading = false;
   marks = 0;
   _subscriber = null;
+  quizName = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    let questions = localStorage.getItem('questions');
+    this.quizName =
+      this.activatedRoute.snapshot.queryParams['quiz'] || 'questions';
+    let questions = localStorage.getItem(this.quizName);
     if (questions) {
       this.shuffleQuestion();
     } else {
@@ -99,7 +102,7 @@ export class RealTestComponent implements OnInit {
     this.isLoading = false;
     this.isTestStart = false;
     this.isTestComplete = false;
-    this.questions = JSON.parse(localStorage.getItem('questions'));
+    this.questions = JSON.parse(localStorage.getItem(this.quizName));
     this.questions = _.shuffle(this.questions);
     this.questions = _.slice(this.questions, 0, 100);
     this.questions = this.questions.map((question) => {
@@ -110,7 +113,7 @@ export class RealTestComponent implements OnInit {
   }
 
   shuffleQuestion() {
-    this.questions = JSON.parse(localStorage.getItem('questions'));
+    this.questions = JSON.parse(localStorage.getItem(this.quizName));
       this.questions = _.shuffle(this.questions);
       this.questions = _.slice(this.questions, 0, 100);
       this.questions = this.questions.map((question) => {

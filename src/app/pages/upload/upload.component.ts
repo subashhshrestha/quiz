@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -11,15 +12,24 @@ export class UploadComponent implements OnInit, OnDestroy {
   loading = false;
   invalidHeaderError = 'Hey You Please enter a file with correct header';
   invalidHeader = false;
+  quizName = '';
 
-  constructor(private meta: Meta) {
-    this.meta.updateTag({ name: 'viewport', content: 'width=500px, user-scalable=no' });
+  constructor(private meta: Meta, private activateRoute: ActivatedRoute) {
+    this.meta.updateTag({
+      name: 'viewport',
+      content: 'width=500px, user-scalable=no',
+    });
   }
   ngOnDestroy(): void {
-    this.meta.updateTag({ name: 'viewport', content: 'width=device-width, initial-scale=1' });
+    this.meta.updateTag({
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1',
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.quizName = this.activateRoute.snapshot.queryParams['quizName'] || '';
+  }
 
   uploadExcel(e) {
     try {
@@ -80,7 +90,22 @@ export class UploadComponent implements OnInit, OnDestroy {
               ];
               questions.unshift(question);
             });
-            localStorage.setItem('questions', JSON.stringify(questions));
+            if (this.quizName) {
+              let a = localStorage.getItem('quizList');
+              if (!a) {
+                localStorage.setItem(
+                  'quizList',
+                  JSON.stringify([this.quizName])
+                );
+              } else {
+                let list = JSON.parse(localStorage.getItem('quizList'));
+                list.push(this.quizName);
+                localStorage.setItem('quizList', JSON.stringify(list));
+              }
+              localStorage.setItem(this.quizName, JSON.stringify(questions));
+            } else {
+              localStorage.setItem('questions', JSON.stringify(questions));
+            }
             this.loading = false;
           }
         };

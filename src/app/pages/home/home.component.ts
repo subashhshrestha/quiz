@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  quizName = 'questions';
   initialLoad = true;
   displayPage = 1;
   page = 0;
@@ -20,14 +21,16 @@ export class HomeComponent implements OnInit {
 
   selectedValue = null;
   finish = false;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    let questions = localStorage.getItem('questions');
+    this.quizName =
+      this.activatedRoute.snapshot.queryParams['quiz'] || 'questions';
+    let questions = localStorage.getItem(this.quizName);
     if (questions) {
-      this.questions = JSON.parse(localStorage.getItem('questions'));
+      this.questions = JSON.parse(questions);
     } else {
-      this.router.navigate(['upload']);
+      this.router.navigate(['/']);
     }
   }
 
@@ -43,7 +46,7 @@ export class HomeComponent implements OnInit {
 
   done() {
     this.questions[this.page]['selected'] = this.selectedValue;
-    localStorage.setItem('questions', JSON.stringify(this.questions));
+    localStorage.setItem(this.quizName, JSON.stringify(this.questions));
   }
 
   next() {
@@ -65,7 +68,7 @@ export class HomeComponent implements OnInit {
       question.selected = null;
       return question;
     });
-    localStorage.setItem('questions', JSON.stringify(this.questions));
+    localStorage.setItem(this.quizName, JSON.stringify(this.questions));
   }
 
   back() {
@@ -75,6 +78,6 @@ export class HomeComponent implements OnInit {
   }
 
   startTest() {
-    this.router.navigate(['test']);
+    this.router.navigate(['test'], { queryParams: { quiz: this.quizName } });
   }
 }
