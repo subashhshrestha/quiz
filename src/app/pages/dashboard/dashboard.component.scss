@@ -1,8 +1,17 @@
-.item{
+.item {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100px;
     border-radius: 10px;
-    box-shadow: 3px 3px 8px #dcdcdcde;
+    box-shadow: -2px 2px 10px 0px #ccd7ffd4;
+}
+
+.item:hover{
+    box-shadow: -2px 2px 10px 0px #ccd7ffd4 inset;
+}
+
+hr {
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
 }

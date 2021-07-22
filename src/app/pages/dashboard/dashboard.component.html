@@ -13,9 +13,12 @@
       </button>
     </div>
   </div>
+  <hr>
   <div class="quiz-list row p-2" *ngIf="!isListEmpty">
-    <div *ngFor="let item of quizList" class="col-md-4 col-6 mt-2 item" (click)="itemClicked(item)">
-      {{ item }}
+    <div *ngFor="let item of quizList" class="col-md-3 col-6 mt-4" (click)="itemClicked(item)">
+      <div class="item">
+      {{ item | titlecase }}
+      </div>
     </div>
   </div>
   <div class="d-flex justify-content-center" *ngIf="isListEmpty">
